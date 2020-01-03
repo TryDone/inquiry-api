@@ -1,16 +1,21 @@
 package com.trydone.inquiry.service;
 
 import com.trydone.inquiry.data.Symptom;
+import com.trydone.inquiry.data.SymptomExt;
 
 import java.util.List;
 
 public interface ISymptomService {
 
-    int insert(Symptom symptom);
+    boolean insert(Symptom symptom);
+
+    boolean selectInsert(SymptomExt symptomExt);
 
     List<Symptom> select(Symptom symptom);
 
-    int update(Symptom symptom);
+    boolean update(Symptom symptom);
 
-    int delate(String id);
+    boolean delete(String id);
+
+    Symptom get(String id);
 }

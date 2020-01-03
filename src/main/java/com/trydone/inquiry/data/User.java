@@ -13,7 +13,7 @@ public class User {
     /**
      * 主键
      */
-    @ApiModelProperty("ID")
+    @ApiModelProperty("id")
     @Id
     @Column(name = "id")
     private String id;

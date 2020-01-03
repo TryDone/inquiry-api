@@ -1,6 +1,7 @@
 package com.trydone.inquiry.controller;
 
 import com.trydone.inquiry.data.Symptom;
+import com.trydone.inquiry.data.SymptomExt;
 import com.trydone.inquiry.service.ISymptomService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -19,8 +20,14 @@ public class SymptomController {
 
     @ApiOperation(value = "症状新增")
     @PostMapping("/insert")
-    public int insert(@RequestBody Symptom symptom) {
+    public boolean insert(@RequestBody Symptom symptom) {
         return symptomService.insert(symptom);
+    }
+
+    @ApiOperation(value = "症状选择新增")
+    @PostMapping("/selectInsert/")
+    public boolean selectInsert(@RequestBody SymptomExt symptomExt) {
+        return symptomService.selectInsert(symptomExt);
     }
 
     @ApiOperation(value = "条件查询")
@@ -31,19 +38,19 @@ public class SymptomController {
 
     @ApiOperation(value = "症状修改")
     @PutMapping("/update")
-    public int update(@RequestBody Symptom symptom) {
+    public boolean update(@RequestBody Symptom symptom) {
         return symptomService.update(symptom);
     }
 
     @ApiOperation(value = "症状删除")
-    @DeleteMapping("/delate")
-    public int insert(String id) {
-        return symptomService.delate(id);
+    @DeleteMapping("/delete")
+    public boolean delete(String id) {
+        return symptomService.delete(id);
     }
 
     @ApiOperation(value = "主键查询")
-    @GetMapping("/get")
-    public int get(String id) {
-        return symptomService.delate(id);
+    @GetMapping("/get/{id}")
+    public Symptom get(@PathVariable String id) {
+        return symptomService.get(id);
     }
 }
