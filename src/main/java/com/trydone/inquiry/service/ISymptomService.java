@@ -11,11 +11,11 @@ public interface ISymptomService {
 
     boolean selectInsert(SymptomExt symptomExt);
 
-    List<Symptom> select(Symptom symptom);
-
     boolean update(Symptom symptom);
 
     boolean delete(String id);
 
     Symptom get(String id);
+
+    List<Symptom> querySymptom(String id);
 }

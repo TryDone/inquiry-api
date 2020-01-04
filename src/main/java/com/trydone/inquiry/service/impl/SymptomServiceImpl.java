@@ -5,6 +5,8 @@ import com.trydone.inquiry.dao.SymptomMapper;
 import com.trydone.inquiry.data.Symptom;
 import com.trydone.inquiry.data.SymptomExt;
 import com.trydone.inquiry.service.ISymptomService;
+import org.frameworkset.elasticsearch.ElasticSearchHelper;
+import org.frameworkset.elasticsearch.client.ClientInterface;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -31,6 +33,8 @@ public class SymptomServiceImpl implements ISymptomService {
             symptomExt.setTargetId(symptom.getId());
             symptomExtMapper.insertSelective(symptomExt);
         }
+        ClientInterface clientUtil = ElasticSearchHelper.getRestClientUtil();
+        clientUtil.addDocument("inquiry",symptom);
         symptomMapper.insertSelective(symptom);
         return true;
     }
@@ -41,12 +45,10 @@ public class SymptomServiceImpl implements ISymptomService {
         return true;
     }
 
-    public List<Symptom> select(Symptom symptom) {
-        return symptomMapper.select(symptom);
-    }
-
     public boolean update(Symptom symptom) {
         symptomMapper.updateByPrimaryKeySelective(symptom);
+        ClientInterface clientUtil = ElasticSearchHelper.getRestClientUtil();
+        clientUtil.addDocument("inquiry",symptom);
         return true;
 
     }
@@ -64,11 +66,17 @@ public class SymptomServiceImpl implements ISymptomService {
             symptomExtMapper.delete(symptomExt);
             //删除该节点信息
             symptomMapper.deleteByPrimaryKey(id);
+            ClientInterface clientUtil = ElasticSearchHelper.getRestClientUtil();
+            clientUtil.deleteDocument("inquiry","_doc",id);
         }
         return true;
     }
 
     public Symptom get(String id) {
         return symptomMapper.selectByPrimaryKey(id);
+    }
+
+    public List<Symptom> querySymptom(String id) {
+        return symptomMapper.querySymptom(id);
     }
 }

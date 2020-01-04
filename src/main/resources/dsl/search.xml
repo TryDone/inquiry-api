@@ -3,25 +3,11 @@
     <property name="mapping">
         <![CDATA[
             {
-                "mappings":{
-                    "properties":{
-                        "id":{
-                            "type":"keyword"
-                        },
-                        "content":{
-                            "type":"text"
-                        },
-                        "common":{
-                            "type":"keyword"
-                        },
-                        "type":{
-                           "type":"keyword"
-                        },
-                        "level":{
-                           "type":"keyword"
-                        }
-                    }
+              "query": {
+                "match": {
+                  "content": "#[content]"
                 }
+              }
             }
         ]]>
     </property>

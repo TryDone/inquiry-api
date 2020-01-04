@@ -2,6 +2,7 @@ package com.trydone.inquiry.controller;
 
 import com.trydone.inquiry.data.Symptom;
 import com.trydone.inquiry.data.User;
+import com.trydone.inquiry.service.ISymptomService;
 import com.trydone.inquiry.service.IUserService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -24,6 +25,9 @@ public class MiniController {
     private IUserService userService;
 
     @Autowired
+    private ISymptomService symptomService;
+
+    @Autowired
     private BBossESStarter bbossESStarter;
 
     @ApiOperation(value = "根据微信小程序用户标识查询用户信息")
@@ -40,37 +44,37 @@ public class MiniController {
 
     @ApiOperation(value = "根据id查询家庭成员信息")
     @GetMapping("/user/get/{id}")
-    public User get(@PathVariable String id) {
+    public User getUser(@PathVariable String id) {
         return userService.get(id);
     }
 
     @ApiOperation(value = "增加家庭成员信息")
     @PostMapping("/user/insert")
-    public boolean insert(@RequestBody User user) {
+    public boolean insertUser(@RequestBody User user) {
         return userService.insert(user);
     }
 
     @ApiOperation(value = "家庭成员信息条件查询")
     @PostMapping("/user/select")
-    public List<User> select(@RequestBody User user) {
+    public List<User> selectUser(@RequestBody User user) {
         return userService.select(user);
     }
 
     @ApiOperation(value = "家庭成员信息修改")
     @PutMapping("/user/update")
-    public boolean update(@RequestBody User user) {
+    public boolean updateUser(@RequestBody User user) {
         return userService.update(user);
     }
 
     @ApiOperation(value = "家庭成员信息删除")
     @DeleteMapping("/user/delete/{id}")
-    public boolean delete(@PathVariable String id) {
+    public boolean deleteUser(@PathVariable String id) {
         return userService.delete(id);
     }
 
     @ApiOperation(value = "搜索症状")
     @GetMapping("/{index}/search/{content}")
-    public List<Symptom> search(@PathVariable String index, @PathVariable(name = "content",required = false)String content) {
+    public List<Symptom> search(@PathVariable String index, @PathVariable(name = "content", required = false) String content) {
         Map<String, String> params = new HashMap<>();
         params.put("content", content);
         ClientInterface clientUtil = ElasticSearchHelper.getConfigRestClientUtil("dsl/search.xml");
@@ -78,4 +82,15 @@ public class MiniController {
         return esDatas.getDatas();
     }
 
+    @ApiOperation(value = "根据id查询症状信息")
+    @GetMapping("/symptom/get/{id}")
+    public Symptom getSymptom(@PathVariable String id) {
+        return symptomService.get(id);
+    }
+
+    @ApiOperation(value = "查询根据父症状id查询子症状，查询一级症状是id值为-1")
+    @GetMapping("/symptom/query/{id}")
+    public List<Symptom> querySymptom(@PathVariable String id) {
+        return symptomService.querySymptom(id);
+    }
 }
