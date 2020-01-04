@@ -16,19 +16,32 @@ public class UserServiceImpl implements IUserService {
     @Autowired
     private UserMapper userMapper;
 
-    public int insert(User user) {
-        return userMapper.insertSelective(user);
+    public User getByOpenId(String openId) {
+        return userMapper.getByOpenId(openId);
+    }
+
+    public List<User> getRelationUserByOpenId(String openId) {
+        return userMapper.getRelationUserByOpenId(openId);
+    }
+    public User get(String id){
+       return userMapper.selectByPrimaryKey(id);
+    }
+    public boolean insert(User user) {
+        userMapper.insertSelective(user);
+        return true;
     }
 
     public List<User> select(User user) {
         return userMapper.select(user);
     }
 
-    public int update(User user) {
-        return userMapper.updateByPrimaryKeySelective(user);
+    public boolean update(User user) {
+        userMapper.updateByPrimaryKeySelective(user);
+        return true;
     }
 
-    public int delate(String id) {
-        return userMapper.deleteByPrimaryKey(id);
+    public boolean delete(String id) {
+        userMapper.deleteByPrimaryKey(id);
+        return true;
     }
 }
