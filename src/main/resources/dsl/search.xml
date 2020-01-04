@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding='UTF-8'?>
+<properties>
+    <property name="mapping">
+        <![CDATA[
+            {
+                "mappings":{
+                    "properties":{
+                        "id":{
+                            "type":"keyword"
+                        },
+                        "content":{
+                            "type":"text"
+                        },
+                        "common":{
+                            "type":"keyword"
+                        },
+                        "type":{
+                           "type":"keyword"
+                        },
+                        "level":{
+                           "type":"keyword"
+                        }
+                    }
+                }
+            }
+        ]]>
+    </property>
+</properties>

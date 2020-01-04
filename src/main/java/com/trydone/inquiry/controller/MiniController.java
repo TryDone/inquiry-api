@@ -5,17 +5,26 @@ import com.trydone.inquiry.data.User;
 import com.trydone.inquiry.service.IUserService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
+import org.frameworkset.elasticsearch.ElasticSearchHelper;
+import org.frameworkset.elasticsearch.boot.BBossESStarter;
+import org.frameworkset.elasticsearch.client.ClientInterface;
+import org.frameworkset.elasticsearch.entity.ESDatas;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @Api(tags = "小程序接口")
 @RestController
 @RequestMapping("/api/v1/mini")
 public class MiniController {
     @Autowired
-    IUserService userService;
+    private IUserService userService;
+
+    @Autowired
+    private BBossESStarter bbossESStarter;
 
     @ApiOperation(value = "根据微信小程序用户标识查询用户信息")
     @GetMapping("/user/getByOpenId/{openId}")
@@ -60,9 +69,13 @@ public class MiniController {
     }
 
     @ApiOperation(value = "搜索症状")
-    @GetMapping("/symptom/search/{text}")
-    public List<Symptom> search(@PathVariable String text){
-        return null;
+    @GetMapping("/{index}/search/{content}")
+    public List<Symptom> search(@PathVariable String index, @PathVariable(name = "content",required = false)String content) {
+        Map<String, String> params = new HashMap<>();
+        params.put("content", content);
+        ClientInterface clientUtil = ElasticSearchHelper.getConfigRestClientUtil("dsl/search.xml");
+        ESDatas esDatas = clientUtil.searchList(index + "/_search", "search", params, Symptom.class);
+        return esDatas.getDatas();
     }
 
 }
