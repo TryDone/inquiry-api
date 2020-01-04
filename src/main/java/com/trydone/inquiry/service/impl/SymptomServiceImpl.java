@@ -33,9 +33,10 @@ public class SymptomServiceImpl implements ISymptomService {
             symptomExt.setTargetId(symptom.getId());
             symptomExtMapper.insertSelective(symptomExt);
         }
+        symptom.setParentId("");
+        symptomMapper.insertSelective(symptom);
         ClientInterface clientUtil = ElasticSearchHelper.getRestClientUtil();
         clientUtil.addDocument("inquiry",symptom);
-        symptomMapper.insertSelective(symptom);
         return true;
     }
 

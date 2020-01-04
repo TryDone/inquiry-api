@@ -9,10 +9,10 @@ import io.swagger.annotations.ApiOperation;
 import org.frameworkset.elasticsearch.ElasticSearchHelper;
 import org.frameworkset.elasticsearch.boot.BBossESStarter;
 import org.frameworkset.elasticsearch.client.ClientInterface;
-import org.frameworkset.elasticsearch.entity.ESDatas;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -73,13 +73,18 @@ public class MiniController {
     }
 
     @ApiOperation(value = "搜索症状")
-    @GetMapping("/{index}/search/{content}")
-    public List<Symptom> search(@PathVariable String index, @PathVariable(name = "content", required = false) String content) {
-        Map<String, String> params = new HashMap<>();
-        params.put("content", content);
+    @GetMapping("/symptom/search")
+    public List<Symptom> search(@RequestParam(name = "content", required = false) String content) {
+        List<Symptom> symptomList = new ArrayList<>();
         ClientInterface clientUtil = ElasticSearchHelper.getConfigRestClientUtil("dsl/search.xml");
-        ESDatas esDatas = clientUtil.searchList(index + "/_search", "search", params, Symptom.class);
-        return esDatas.getDatas();
+        if (!"".equals(content) && null != content) {
+            Map<String, String> params = new HashMap<>();
+            params.put("content", content);
+            symptomList = clientUtil.searchList("inquiry/_search", "search", params, Symptom.class).getDatas();
+        } else {
+            symptomList = clientUtil.searchList("inquiry/_search", Symptom.class).getDatas();
+        }
+        return symptomList;
     }
 
     @ApiOperation(value = "根据id查询症状信息")

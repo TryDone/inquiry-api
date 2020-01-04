@@ -1,5 +1,6 @@
 package com.trydone.inquiry.data;
 
+import com.frameworkset.orm.annotation.ESId;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 
@@ -15,6 +16,7 @@ public class Symptom {
     /**
      * 主键
      */
+    @ESId
     @ApiModelProperty("id")
     @Id
     @Column(name = "id")

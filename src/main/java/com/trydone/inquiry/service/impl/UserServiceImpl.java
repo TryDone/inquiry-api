@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.UUID;
 
 @Service("userService")
 @Transactional
@@ -27,6 +28,7 @@ public class UserServiceImpl implements IUserService {
        return userMapper.selectByPrimaryKey(id);
     }
     public boolean insert(User user) {
+        user.setId(UUID.randomUUID().toString().replace("-",""));
         userMapper.insertSelective(user);
         return true;
     }

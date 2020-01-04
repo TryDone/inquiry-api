@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding='UTF-8'?>
 <properties>
-    <property name="mapping">
+    <property name="search">
         <![CDATA[
             {
               "query": {
                 "match": {
-                  "content": "#[content]"
+                  "content": #[content]
                 }
               }
             }
