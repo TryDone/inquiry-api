@@ -44,3 +44,14 @@ create table inquiry_dict
   name varchar(255) default null comment '名称',
   primary key (id)
 ) engine=innodb default charset=utf8;
+
+--管理后台用户
+drop table if exists inquiry_admin_user;
+create table inquiry_admin_user
+(
+  user_id   varchar(255) not null,
+  user_type varchar(255) default null,
+  user_name varchar(255) not null,
+  password  varchar(255) not null,
+  primary key (user_id)
+) engine=innodb default charset=utf8;
