@@ -98,4 +98,10 @@ public class MiniController {
     public List<Symptom> querySymptom(@PathVariable String id) {
         return symptomService.querySymptom(id);
     }
+
+    @ApiOperation(value = "条件查询症状信息")
+    @GetMapping("/symptom/query/{id}")
+    public List<Symptom> querySymptom(@RequestBody Symptom symptom) {
+        return symptomService.select(symptom);
+    }
 }

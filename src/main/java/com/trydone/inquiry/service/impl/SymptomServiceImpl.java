@@ -80,4 +80,8 @@ public class SymptomServiceImpl implements ISymptomService {
     public List<Symptom> querySymptom(String id) {
         return symptomMapper.querySymptom(id);
     }
+
+    public List<Symptom> select(Symptom symptom) {
+        return symptomMapper.select(symptom);
+    }
 }

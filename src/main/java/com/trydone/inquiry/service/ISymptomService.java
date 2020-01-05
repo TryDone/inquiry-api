@@ -18,4 +18,6 @@ public interface ISymptomService {
     Symptom get(String id);
 
     List<Symptom> querySymptom(String id);
+
+    List<Symptom> select(Symptom symptom);
 }
