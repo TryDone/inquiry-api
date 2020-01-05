@@ -5,14 +5,14 @@ import com.trydone.inquiry.dao.SymptomMapper;
 import com.trydone.inquiry.data.Symptom;
 import com.trydone.inquiry.data.SymptomExt;
 import com.trydone.inquiry.service.ISymptomService;
+import net.sf.json.JSONObject;
 import org.frameworkset.elasticsearch.ElasticSearchHelper;
 import org.frameworkset.elasticsearch.client.ClientInterface;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.List;
-import java.util.UUID;
+import java.util.*;
 
 @Service("symptomService")
 @Transactional
@@ -84,7 +84,19 @@ public class SymptomServiceImpl implements ISymptomService {
         return symptomMapper.querySymptom(id);
     }
 
-    public List<Symptom> selectCommon() {
-        return symptomMapper.selectCommon();
+    public List<Map<String,Object>> selectCommon() {
+        List<Map<String,Object>> mapList = new ArrayList<>();
+        List<Symptom> symptomList = symptomMapper.selectCommon();
+        symptomList.stream().forEach(symptom -> {
+            Map<String,Object> map = new HashMap<>();
+            map.put("id",symptom.getId());
+            map.put("content",symptom.getContent());
+            map.put("common",symptom.getCommon());
+            map.put("type",symptom.getType());
+            map.put("level",symptom.getLevel());
+            map.put("subSymptom",symptomMapper.querySymptom(symptom.getId()));
+            mapList.add(map);
+        });
+        return mapList;
     }
 }

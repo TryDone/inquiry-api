@@ -101,7 +101,7 @@ public class MiniController {
 
     @ApiOperation(value = "查询常见症状信息")
     @GetMapping("/symptom/select")
-    public List<Symptom> selectCommon() {
+    public List<Map<String,Object>> selectCommon() {
         return symptomService.selectCommon();
     }
 }
