@@ -77,14 +77,14 @@ public class SymptomServiceImpl implements ISymptomService {
     }
 
     public Symptom get(String id) {
-        return symptomMapper.selectByPrimaryKey(id);
+        return symptomMapper.get(id);
     }
 
     public List<Symptom> querySymptom(String id) {
         return symptomMapper.querySymptom(id);
     }
 
-    public List<Symptom> select(Symptom symptom) {
-        return symptomMapper.select(symptom);
+    public List<Symptom> selectCommon() {
+        return symptomMapper.selectCommon();
     }
 }

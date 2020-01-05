@@ -8,4 +8,8 @@ import java.util.List;
 @org.apache.ibatis.annotations.Mapper
 public interface SymptomMapper extends Mapper<Symptom> {
     List<Symptom> querySymptom(String id);
+
+    Symptom get(String id);
+
+    List<Symptom> selectCommon();
 }

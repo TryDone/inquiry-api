@@ -19,5 +19,5 @@ public interface ISymptomService {
 
     List<Symptom> querySymptom(String id);
 
-    List<Symptom> select(Symptom symptom);
+    List<Symptom> selectCommon();
 }

@@ -4,7 +4,19 @@
 
     <select id="querySymptom" parameterType="String" resultType="com.trydone.inquiry.data.Symptom">
         select t2.*
-        from inquiry_symptom_ext t1 left join inquiry_symptom t2 on t1.target_id = t2.id
+        from inquiry_symptom_ext t1
+                 left join inquiry_symptom t2 on t1.target_id = t2.id
         where t1.src_id = #{id}
+    </select>
+    <select id="get" parameterType="String" resultType="com.trydone.inquiry.data.Symptom">
+        select *
+        from inquiry_symptom
+        where id = #{id}
+    </select>
+
+    <select id="selectCommon" resultType="com.trydone.inquiry.data.Symptom">
+        select *
+        from inquiry_symptom
+        where common = 1
     </select>
 </mapper>
