@@ -26,17 +26,20 @@ public class SymptomServiceImpl implements ISymptomService {
 
     public boolean insert(Symptom symptom) {
         symptom.setId(UUID.randomUUID().toString().replace("-", ""));
+        SymptomExt symptomExt = new SymptomExt();
+        symptomExt.setId(UUID.randomUUID().toString().replace("-", ""));
         if (!"".equals(symptom.getParentId()) && null != symptom.getParentId()) {
-            SymptomExt symptomExt = new SymptomExt();
-            symptomExt.setId(UUID.randomUUID().toString().replace("-", ""));
             symptomExt.setSrcId(symptom.getParentId());
-            symptomExt.setTargetId(symptom.getId());
-            symptomExtMapper.insertSelective(symptomExt);
+        } else {
+            //所有一级节点默认都挂载虚拟节点-1上
+            symptomExt.setSrcId("-1");
         }
+        symptomExt.setTargetId(symptom.getId());
+        symptomExtMapper.insertSelective(symptomExt);
         symptom.setParentId("");
         symptomMapper.insertSelective(symptom);
         ClientInterface clientUtil = ElasticSearchHelper.getRestClientUtil();
-        clientUtil.addDocument("inquiry",symptom);
+        clientUtil.addDocument("inquiry", symptom);
         return true;
     }
 
@@ -49,7 +52,7 @@ public class SymptomServiceImpl implements ISymptomService {
     public boolean update(Symptom symptom) {
         symptomMapper.updateByPrimaryKeySelective(symptom);
         ClientInterface clientUtil = ElasticSearchHelper.getRestClientUtil();
-        clientUtil.addDocument("inquiry",symptom);
+        clientUtil.addDocument("inquiry", symptom);
         return true;
 
     }
@@ -68,7 +71,7 @@ public class SymptomServiceImpl implements ISymptomService {
             //删除该节点信息
             symptomMapper.deleteByPrimaryKey(id);
             ClientInterface clientUtil = ElasticSearchHelper.getRestClientUtil();
-            clientUtil.deleteDocument("inquiry","_doc",id);
+            clientUtil.deleteDocument("inquiry", "_doc", id);
         }
         return true;
     }
